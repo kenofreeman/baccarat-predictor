@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import gzip
 from datetime import datetime, timedelta
 
 # Configuration de la page
