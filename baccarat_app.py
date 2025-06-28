@@ -131,4 +131,3 @@ if st.button('🔮 Générer les prédictions'):
 
 # Pied de page
 st.markdown("---")
-st.mark
