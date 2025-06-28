@@ -18,12 +18,13 @@ st.markdown("Prédictions pour la journée complète du lendemain")
 
 # Chargement des modèles
 @st.cache_resource
+@st.cache_resource
 def load_models():
     try:
-        # CHEMIN ABSOLU VERS VOTRE MODÈLE - À MODIFIER!
-        model_path = '/content/drive/MyDrive/baccarat_models/baccarat_model.pkl'
-        models, encoders = joblib.load(model_path)
-        return models, encoders, True
+        # Charger le modèle compressé
+        with gzip.open('baccarat_model.pkl.gz', 'rb') as f:
+            models, encoders, X_train = joblib.load(f)
+        return models, encoders, X_train, True
     except Exception as e:
         st.error(f"Erreur de chargement des modèles: {str(e)}")
         return None, None, False
