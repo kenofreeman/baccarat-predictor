@@ -20,12 +20,26 @@ st.markdown("Prédictions pour la journée complète du lendemain")
 # Chargement des modèles
 @st.cache_resource
 @st.cache_resource
+@st.cache_resource
 def load_models():
     try:
+        # Chemin relatif pour Streamlit Cloud
+        model_path = 'baccarat_model.pkl.gz'
+        
+        # Vérifier si le fichier existe
+        if not os.path.exists(model_path):
+            st.error(f"Fichier modèle introuvable : {model_path}")
+            return None, None, None, False
+            
         # Charger le modèle compressé
-        with gzip.open('baccarat_model.pkl.gz', 'rb') as f:
+        with gzip.open(model_path, 'rb') as f:
             models, encoders, X_train = joblib.load(f)
+        
+        st.success("Modèles chargés avec succès!")
         return models, encoders, X_train, True
+    except Exception as e:
+        st.error(f"Erreur de chargement du modèle: {str(e)}")
+        return None, None, None, False
     except Exception as e:
         st.error(f"Erreur de chargement des modèles: {str(e)}")
         return None, None, False
